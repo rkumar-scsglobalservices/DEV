@@ -21,6 +21,15 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+
+    # Setup Node
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16
+
+    - name: npm install
+      uses: npm install
     
     # Install SFDX CLI treu
     - name: Install SFDX CLI
@@ -33,8 +42,8 @@ jobs:
         USERNAME: ${{ secrets.SALESFORCEPRODUSERNAME }}
         INSTANCE_URL: ${{ secrets.SALESFORCEPRODINSTANCEURL }}
         SERVER_KEY: ${{ secrets.SALESFORCESERVERKEY }}
-      run: sfdx force:auth:jwt:grant --client-id $CLIENT_ID --jwt-key-file $SERVER_KEY --username $USERNAME --instance-url $INSTANCE_URL -a dev
-      #run: sfdx force:auth:jwt:grant -i $CLIENT_ID -f server.key -u $USERNAME --instance-url $INSTANCE_URL -a dev
+      #run: sfdx force:auth:jwt:grant --client-id $CLIENT_ID --jwt-key-file $SERVER_KEY --username $USERNAME --instance-url $INSTANCE_URL -a dev
+      run: sfdx force:auth:jwt:grant -i $CLIENT_ID -f server.key -u $USERNAME --instance-url $INSTANCE_URL -a dev
 
     # Convert to Deploy Source
     - name: Convert to Deploy Source
