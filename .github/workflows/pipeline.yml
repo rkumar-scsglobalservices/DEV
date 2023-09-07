@@ -21,6 +21,11 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+      with:
+        CLIENT_ID: ${{ secrets.SALESFORCEPRODCLIENTID }}
+        USERNAME: ${{ secrets.SALESFORCEPRODUSERNAME }}
+        INSTANCE_URL: ${{ secrets.SALESFORCEPRODINSTANCEURL }}
+        SERVER_KEY: ${{ secrets.SALESFORCESERVERKEY }}
 
     # Setup Node
     - name: Setup Node
@@ -37,11 +42,6 @@ jobs:
 
     # Authorize SF Org
     - name: Authorize SF Org
-      env:
-        CLIENT_ID: ${{ secrets.SALESFORCEPRODCLIENTID }}
-        USERNAME: ${{ secrets.SALESFORCEPRODUSERNAME }}
-        INSTANCE_URL: ${{ secrets.SALESFORCEPRODINSTANCEURL }}
-        SERVER_KEY: ${{ secrets.SALESFORCESERVERKEY }}
       #run: sfdx force:auth:jwt:grant --client-id $CLIENT_ID --jwt-key-file $SERVER_KEY --username $USERNAME --instance-url $INSTANCE_URL -a dev
       run: sfdx force:auth:jwt:grant -i $CLIENT_ID -f server.key -u $USERNAME --instance-url $INSTANCE_URL -a dev
 
